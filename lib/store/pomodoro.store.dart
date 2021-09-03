@@ -36,7 +36,7 @@ abstract class _PomodoroStore with Store {
   @action
   void iniciar() {
     iniciado = true;
-    cronometro = Timer.periodic(const Duration(milliseconds: 10), (timer) {
+    cronometro = Timer.periodic(const Duration(seconds: 1), (timer) {
       // Quando zerar os minutos e segundos, o tipo de intervalo é mudado
       if (minutos == 0 && segundos == 0) {
         _alternarTipoIntervalo();
@@ -75,9 +75,11 @@ abstract class _PomodoroStore with Store {
   // decrementa o tempo de trabalho
   @action
   void decrementaTempoTrabalho() {
-    tempoTrabalho--;
-    if (estaTrabalhando()) {
-      reiniciar();
+    if (tempoTrabalho > 1) {
+      tempoTrabalho--;
+      if (estaTrabalhando()) {
+        reiniciar();
+      }
     }
   }
 
@@ -93,9 +95,11 @@ abstract class _PomodoroStore with Store {
   // decrementa o tempo de descanso
   @action
   void decrementaTempoDescanso() {
-    tempoDescanso--;
-    if (estaDescansando()) {
-      reiniciar();
+    if (tempoDescanso > 1) {
+      tempoDescanso--;
+      if (estaDescansando()) {
+        reiniciar();
+      }
     }
   }
 
